@@ -34,6 +34,9 @@ A fully playable 3D Pacman game built as a web application using Three.js.
 - **Language**: Vanilla JavaScript
 - **No Build Required**: Just open the HTML file in a browser
 - **Browser Support**: Modern browsers with WebGL support (Chrome, Firefox, Safari, Edge)
+- **Dependencies**: Three.js is loaded from CDN (jsdelivr.net) - requires internet connection
+
+**Note**: The game requires an internet connection on first load to download Three.js from the CDN. Once loaded, the game runs entirely in the browser.
 
 ## Game Mechanics
 

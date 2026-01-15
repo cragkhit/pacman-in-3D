@@ -1,4 +1,6 @@
 // 3D Pacman Game
+import * as THREE from 'three';
+
 class PacmanGame {
     constructor() {
         this.canvas = document.getElementById('game-canvas');
