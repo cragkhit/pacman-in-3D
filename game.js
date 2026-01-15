@@ -23,6 +23,17 @@ class PacmanGame {
         this.powerModeTimer = 0;
         this.powerModeDuration = 300; // frames
         
+        // Animation constants
+        this.ghostDirectionChangeChance = 0.02;
+        this.powerPelletPulseSpeed = 0.01;
+        this.powerPelletPulseAmount = 0.2;
+        this.ghostFloatSpeed = 0.005;
+        this.ghostFloatAmount = 0.1;
+        
+        // FPS counter
+        this.lastTime = performance.now();
+        this.frames = 0;
+        
         // Keyboard state
         this.keys = {};
         
@@ -360,7 +371,7 @@ class PacmanGame {
             }
             
             // Animate power pellets pulsing
-            const pulseScale = 1 + Math.sin(Date.now() * 0.01) * 0.2;
+            const pulseScale = 1 + Math.sin(Date.now() * this.powerPelletPulseSpeed) * this.powerPelletPulseAmount;
             this.powerPellets.forEach(pellet => {
                 if (!pellet.collected) {
                     pellet.mesh.scale.set(pulseScale, pulseScale, pulseScale);
@@ -417,7 +428,7 @@ class PacmanGame {
             const userData = ghost.userData;
             
             // Simple AI: move towards pacman or away if scared
-            if (Math.random() < 0.02) { // Change direction occasionally
+            if (Math.random() < this.ghostDirectionChangeChance) { // Change direction occasionally
                 const dx = this.pacman.userData.x - userData.x;
                 const dz = this.pacman.userData.z - userData.z;
                 
@@ -477,7 +488,7 @@ class PacmanGame {
             }
             
             // Animate ghosts
-            ghost.position.y = 0.3 + Math.sin(Date.now() * 0.005 + ghost.userData.startX) * 0.1;
+            ghost.position.y = 0.3 + Math.sin(Date.now() * this.ghostFloatSpeed + ghost.userData.startX) * this.ghostFloatAmount;
         });
     }
     
@@ -631,10 +642,6 @@ class PacmanGame {
         this.renderer.render(this.scene, this.camera);
         
         // Update FPS counter
-        if (this.lastTime === undefined) {
-            this.lastTime = performance.now();
-            this.frames = 0;
-        }
         this.frames++;
         const currentTime = performance.now();
         if (currentTime >= this.lastTime + 1000) {
